@@ -37,21 +37,40 @@ var songs = [
         trackTitle: "Praise The Lawd",
     },
 ];
+var audioContext = new AudioContext();
+var prevAudio = null;
+var prevAudioButton = null;
+var _loop_1 = function (song) {
+    var audioPlayer = document.createElement("div");
+    audioPlayer.className = "audio-player";
+    var audioElement = document.createElement("audio");
+    audioElement.src = song.url;
+    var track = audioContext.createMediaElementSource(audioElement);
+    track.connect(audioContext.destination);
+    var playButton = document.createElement("button");
+    playButton.textContent = "Play/Pause";
+    playButton.dataset.playing = "false";
+    audioPlayer.appendChild(playButton);
+    playButton.addEventListener("click", function () {
+        audioContext.resume();
+        if (playButton.dataset.playing === "false") {
+            prevAudio === null || prevAudio === void 0 ? void 0 : prevAudio.pause();
+            if (prevAudioButton !== null)
+                prevAudioButton.dataset.playing = "false";
+            audioElement.play();
+            playButton.dataset.playing = "true";
+            prevAudio = audioElement;
+            prevAudioButton = playButton;
+        }
+        else {
+            audioElement.pause();
+            playButton.dataset.playing = "false";
+            prevAudio = null;
+        }
+    });
+    (_a = document.querySelector("#audio-container")) === null || _a === void 0 ? void 0 : _a.appendChild(audioPlayer);
+};
 for (var _i = 0, songs_1 = songs; _i < songs_1.length; _i++) {
     var song = songs_1[_i];
-    var audioElement = document.createElement("audio");
-    audioElement.className = "audio-player";
-    audioElement.src = song.url;
-    audioElement.controls = true;
-    (_a = document.querySelector("#audio-container")) === null || _a === void 0 ? void 0 : _a.appendChild(audioElement);
+    _loop_1(song);
 }
-var audioPlayers = document.querySelectorAll(".audio-player");
-var currPlayer = null;
-var prevPlayer = null;
-audioPlayers.forEach(function (audioPlayer) {
-    audioPlayer.addEventListener("play", function (e) {
-        prevPlayer = currPlayer;
-        currPlayer = audioPlayer;
-        prevPlayer === null || prevPlayer === void 0 ? void 0 : prevPlayer.pause();
-    });
-});

@@ -37,23 +37,41 @@ const songs = [
   },
 ];
 
+const audioContext = new AudioContext();
+let prevAudio: HTMLAudioElement | null = null;
+let prevAudioButton: HTMLButtonElement | null = null;
+
 for (const song of songs) {
+  const audioPlayer = document.createElement("div");
+  audioPlayer.className = "audio-player";
+
   const audioElement = document.createElement("audio");
-  audioElement.className = "audio-player";
   audioElement.src = song.url;
-  audioElement.controls = true;
-  document.querySelector("#audio-container")?.appendChild(audioElement);
-}
+  const track = audioContext.createMediaElementSource(audioElement);
+  track.connect(audioContext.destination);
 
-const audioPlayers: NodeListOf<HTMLAudioElement> =
-  document.querySelectorAll(".audio-player");
-let currPlayer: HTMLAudioElement | null = null;
-let prevPlayer: HTMLAudioElement | null = null;
+  const playButton = document.createElement("button");
+  playButton.textContent = "Play/Pause";
+  playButton.dataset.playing = "false";
+  audioPlayer.appendChild(playButton);
 
-audioPlayers.forEach((audioPlayer) => {
-  audioPlayer.addEventListener("play", (e) => {
-    prevPlayer = currPlayer;
-    currPlayer = audioPlayer;
-    prevPlayer?.pause();
+  playButton.addEventListener("click", () => {
+    audioContext.resume();
+    if (playButton.dataset.playing === "false") {
+      prevAudio?.pause();
+      if (prevAudioButton !== null) prevAudioButton.dataset.playing = "false";
+
+      audioElement.play();
+      playButton.dataset.playing = "true";
+
+      prevAudio = audioElement;
+      prevAudioButton = playButton;
+    } else {
+      audioElement.pause();
+      playButton.dataset.playing = "false";
+      prevAudio = null;
+    }
   });
-});
+
+  document.querySelector("#audio-container")?.appendChild(audioPlayer);
+}
