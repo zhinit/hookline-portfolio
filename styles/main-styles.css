@@ -1,8 +1,5 @@
-html {
-  min-height: 100vh;
-}
-
 body {
+  min-height: 100vh;
   background-image: linear-gradient(50deg, rgb(0, 0, 0), rgb(32, 64, 11));
 }
 
@@ -15,13 +12,16 @@ h1 {
   display: grid;
   grid-template-columns: 1fr;
   justify-self: center;
+  justify-items: center;
 }
 
 #audio-container {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
+  justify-items: center;
 }
 
 /* .audio-player {
+  justify-items: center;
 } */
