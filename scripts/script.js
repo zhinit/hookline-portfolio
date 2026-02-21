@@ -51,6 +51,9 @@ var _loop_1 = function (song) {
     playButton.textContent = "Play/Pause";
     playButton.dataset.playing = "false";
     audioPlayer.appendChild(playButton);
+    var audioText = document.createElement("span");
+    audioText.textContent = "Hookline - ".concat(song.trackTitle);
+    audioPlayer.appendChild(audioText);
     playButton.addEventListener("click", function () {
         audioContext.resume();
         if (playButton.dataset.playing === "false") {

@@ -55,6 +55,10 @@ for (const song of songs) {
   playButton.dataset.playing = "false";
   audioPlayer.appendChild(playButton);
 
+  const audioText = document.createElement("span");
+  audioText.textContent = `Hookline - ${song.trackTitle}`;
+  audioPlayer.appendChild(audioText);
+
   playButton.addEventListener("click", () => {
     audioContext.resume();
     if (playButton.dataset.playing === "false") {
