@@ -1,0 +1,27 @@
+html {
+  min-height: 100vh;
+}
+
+body {
+  background-image: linear-gradient(50deg, rgb(0, 0, 0), rgb(32, 64, 11));
+}
+
+h1 {
+  font-size: 2rem;
+  color: blanchedalmond;
+}
+
+#main-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-self: center;
+}
+
+#audio-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.audio-player {
+}
